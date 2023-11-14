@@ -15,26 +15,23 @@ const reducer = (state, { type, id, input }) => {
         return elem.id !== id;
       });
     case "put":
+      //add new todo
       if (id === null) {
         if (input.taskName !== "") {
           return [...state, { ...input, id: state.length + 1 }];
         }
       }
+      // update existed todo
       if (id !== null) {
-        return state.map((elem) => { 
+        return state.map((elem) => {
           if (elem.id === id) {
-            return{...elem, taskName: input.taskName}
+            return { ...elem, taskName: input.taskName };
           }
-          return elem
-         })
-        // return [
-        //   input,
-        //   ...state.filter((elem) => {
-        //     return elem.id !== id;
-        //   }),
-        // ];
+          return elem;
+        });
       }
       return state;
+      
     case "changeStatus":
       return state.map((elem) => {
         if (elem.id === id) {

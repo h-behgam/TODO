@@ -21,12 +21,10 @@ function Table() {
                   type="button"
                   data-source="1"
                   onClick={() => {
-                    dispatch({ type: "changeStatus", id: elem.id, input: elem });
+                    dispatch({ type: "changeStatus", id: elem.id });
                   }}
                   className={`btn btn-sm state text-capitalize 
                   ${elem.status ? "btn-outline-success" : "btn-outline-warning"}
-                //   ${elem.status === "complete" ? "btn-outline-success" : null}
-                //   ${elem.status === "In Progress" ? "btn-outline-warning" : null}
                   `}
                 >
                   {elem.status ? "complete" : "In Progress"}

@@ -4,7 +4,7 @@ import { MyContext } from "../App/App";
 function Add() {
   let { dispatch, input, setInput } = useContext(MyContext);
   return (
-      <div className="container">
+    <div className="container">
       {/* <!-- Button trigger modal --> */}
       <div style={{ textAlign: "right" }}>
         <button
@@ -42,14 +42,21 @@ function Add() {
                   value={input.taskName}
                   onChange={(e) => {
                     Number.isInteger(input.id)
-                    ? setInput({ ...input, taskName: e.target.value })
-                    : setInput({ id: null, taskName: e.target.value, status: "In Progress" })
+                      ? setInput({ ...input, taskName: e.target.value })
+                      : setInput({ id: null, taskName: e.target.value, status: false });
                   }}
                 />
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => { setInput({id: null, taskName: "", status: ""}) }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  setInput({ id: null, taskName: "", status: "" });
+                }}
+              >
                 Close
               </button>
               <button
@@ -58,8 +65,8 @@ function Add() {
                 className="btn btn-primary"
                 data-bs-dismiss="modal"
                 onClick={() => {
-                  dispatch({ type: "put", id: input.id, input })
-                  setInput({id: null, taskName: "", status: ""})
+                  dispatch({ type: "put", id: input.id, input });
+                  setInput({ id: null, taskName: "", status: "" });
                 }}
               >
                 Save changes
