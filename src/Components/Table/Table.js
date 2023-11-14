@@ -1,34 +1,43 @@
-import React from "react";
-import { Icon } from 'react-icons-kit'
-import {pencil} from 'react-icons-kit/fa/pencil'
-import {trashO} from 'react-icons-kit/fa/trashO'
+import React, { useContext } from "react";
+import { Icon } from "react-icons-kit";
+import { pencil } from "react-icons-kit/fa/pencil";
+import { trashO } from "react-icons-kit/fa/trashO";
+import { MyContext } from "../App/App";
+// import { DB } from "../App/App";
 
 function Table() {
+  let { state, dispatch, setInput } = useContext(MyContext);
+  //   console.log(state);
   return (
-    <div className="container table-responsive">
-      {/* <!--Todo Table--> */}
-      <table className="table">
-        <thead>
-          <tr>
-            <th className="task-id">#</th>
-            <th className="task">Task Name</th>
-            <th className="status">Status</th>
-            <th className="update">Edit</th>
-            <th className="update">Remove</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>task1</td>
+    <tbody>
+      {state.map((elem, index) => {
+        return (
+          <tr key={elem.id}>
+            <td>{index + 1}</td>
+            <td>{elem.taskName}</td>
             <td>
-              <button type="button" className="btn btn-outline-warning btn-sm state" data-source="1">
-                Todo
-              </button>
+              {
+                <button
+                  type="button"
+                  data-source="1"
+                  onClick={() => {
+                    dispatch({ type: "changeStatus", id: elem.id, input: elem });
+                  }}
+                  className={`btn btn-sm state text-capitalize 
+                  ${elem.status ? "btn-outline-success" : "btn-outline-warning"}
+                //   ${elem.status === "complete" ? "btn-outline-success" : null}
+                //   ${elem.status === "In Progress" ? "btn-outline-warning" : null}
+                  `}
+                >
+                  {elem.status ? "complete" : "In Progress"}
+                </button>
+              }
             </td>
             <td>
               <button
+                onClick={() => {
+                  setInput(elem);
+                }}
                 type="button"
                 className="btn btn-outline-info btn-sm pb-2"
                 data-bs-toggle="modal"
@@ -40,14 +49,21 @@ function Table() {
               </button>
             </td>
             <td>
-              <button className="btn btn-outline-secondary btn-sm remove pb-2" data-source="1" type="button">
+              <button
+                onClick={() => {
+                  dispatch({ type: "del", id: elem.id });
+                }}
+                className="btn btn-outline-secondary btn-sm remove pb-2"
+                data-source="1"
+                type="button"
+              >
                 <Icon icon={trashO} size={22} />
               </button>
             </td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+        );
+      })}
+    </tbody>
   );
 }
 

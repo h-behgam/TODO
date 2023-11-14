@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MyContext } from "../App/App";
 
 function Add() {
+  let { dispatch, input, setInput } = useContext(MyContext);
   return (
-    <div className="container">
+      <div className="container">
       {/* <!-- Button trigger modal --> */}
       <div style={{ textAlign: "right" }}>
         <button
@@ -16,7 +18,7 @@ function Add() {
         </button>
       </div>
 
-      <div className="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+      <div className="modal fade" id="task-modal" tabIndex="-1" aria-labelledby="Label" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -37,14 +39,29 @@ function Add() {
                   placeholder="Description of task"
                   aria-label="task-name"
                   aria-describedby="basic-addon1"
+                  value={input.taskName}
+                  onChange={(e) => {
+                    Number.isInteger(input.id)
+                    ? setInput({ ...input, taskName: e.target.value })
+                    : setInput({ id: null, taskName: e.target.value, status: "In Progress" })
+                  }}
                 />
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => { setInput({id: null, taskName: "", status: ""}) }}>
                 Close
               </button>
-              <button id="submit-task" type="button" className="btn btn-primary">
+              <button
+                id="submit-task"
+                type="button"
+                className="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  dispatch({ type: "put", id: input.id, input })
+                  setInput({id: null, taskName: "", status: ""})
+                }}
+              >
                 Save changes
               </button>
             </div>
